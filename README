@@ -1,0 +1,39 @@
+Curl Process Watcher
+
+Starts a daemon to watch a persistent (streaming http) curl process.
+
+USAGE: procWatch.py start|stop|restart|test
+
+Starts, Stops and restarts both curl process and the watcher daemon.
+
+Parameters are in local configuration file named "watcher.cfg"
+This configuration file is typically placed in your working directory. For 
+more information on path and precedence, see Python documentation for ini
+files.
+
+The working directory will contain any http cache entries. There may be none, 
+but process will fail if this directory is not writable.  The working directory
+path string is also used to identify the watched process, so use a different 
+working directory for each process you want to watch.
+
+Data files will be named "output_file_base_name_YYYYmmdd_HHMM.xml"
+
+Data files get new name when (1) curl process dies and is automatically 
+restarted by the watcher or (2) new-file-interval seconds have elapsed since
+start, restart or last new file start.
+
+
+CONFIG FILE
+
+[config]
+working_dir_name=/home/scotthendrickson/ProjectName
+data_dir_name=/ebs_mnt/archives/ProjectName
+output_file_base_name=ProjectName
+[collector]
+auth_string=<username>:<password>
+url=https://scott-test1.gnip.com/data_collectors/10/stream.xml
+[sys]
+new_file_interval=3600
+lock_file_dir=/tmp
+
+Software is licensed under GPL. 2011.
